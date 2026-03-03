@@ -1,5 +1,6 @@
 import React from 'react';
 import './globals.css';
+import Header from '../components/Header';
 
 export const metadata = {
   title: 'Eldercare Search Portal',
@@ -12,11 +13,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    // TODO: tc font family
+    <html lang="en" className="font-sans">
       <body>
-        <main style={{ padding: 24, fontFamily: 'Arial, sans-serif' }}>
-          {children}
-        </main>
+        <Header />
+        <main>{children}</main>
       </body>
     </html>
   );
