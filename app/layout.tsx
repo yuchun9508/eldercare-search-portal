@@ -13,8 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // TODO: tc font family
-    <html lang="en" className="font-sans">
+    <html lang="en" className="font-noto-sans-tc">
       <body>
         <Header />
         <main>{children}</main>

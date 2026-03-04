@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
 @import 'tailwindcss';
 
 @theme {
+  --font-noto-sans-tc: 'Noto Sans TC', sans-serif;
+
   --color-*: initial;
 
   --color-sky-50: #e8f4fb;
