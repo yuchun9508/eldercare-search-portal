@@ -1,0 +1,36 @@
+import React from 'react';
+
+type StarIconProps = {
+  className?: string;
+  width?: number | string;
+  height?: number | string;
+};
+
+export default function StarIcon({
+  className = '',
+  width = 96,
+  height = 96,
+}: StarIconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      width={width}
+      height={height}
+      viewBox="0 0 96 96"
+      fill="none"
+    >
+      <g clipPath="url(#clip0_38_38)">
+        <path
+          d="M88 36.96L59.24 34.48L48 8L36.76 34.52L8 36.96L29.84 55.88L23.28 84L48 69.08L72.72 84L66.2 55.88L88 36.96ZM48 61.6L32.96 70.68L36.96 53.56L23.68 42.04L41.2 40.52L48 24.4L54.84 40.56L72.36 42.08L59.08 53.6L63.08 70.72L48 61.6Z"
+          fill="currentColor"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_38_38">
+          <rect width="96" height="96" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+}
