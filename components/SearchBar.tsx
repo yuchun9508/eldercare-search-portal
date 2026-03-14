@@ -18,7 +18,7 @@ export default function SearchBar() {
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-5 py-10 shadow-lg rounded-md bg-white">
+    <div className="inline-block px-5 py-10 shadow-lg rounded-md bg-white">
       <form
         onSubmit={handleSubmit}
         className="flex flex-wrap gap-2 items-center"

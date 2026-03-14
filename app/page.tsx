@@ -33,7 +33,7 @@ export default function HomePage() {
       </section>
 
       <section>
-        <div className="transform -translate-y-1/2">
+        <div className="transform -translate-y-1/2 text-center">
           <SearchBar />
         </div>
       </section>
@@ -51,7 +51,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mt-16">
+      <section className="py-16">
         <div className="container">
           <h2 className="text-2xl sm:text-3xl font-semibold">
             值得信任的照護資源

@@ -4,7 +4,7 @@ import Logo from './Logo';
 
 export default function Header() {
   return (
-    <div className="bg-primary">
+    <header className="bg-primary">
       <div className="container">
         <div className="flex items-center justify-between h-16">
           <Link
@@ -23,6 +23,6 @@ export default function Header() {
           </nav>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
