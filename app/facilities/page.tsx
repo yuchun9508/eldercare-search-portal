@@ -1,9 +1,9 @@
 import FilterIcon from '../../components/icons/FilterIcon';
 import FacilityCard from '../../components/FacilityCard';
 import FilterForm from '../../components/FilterForm';
+import FilterButton from '../../components/FilterButton';
 
 // TODO:
-// 1. responsive layout
 // 2. filter functionality
 // 3. fetch data from API
 // 4. pagination UI or fetch on scroll.
@@ -26,7 +26,7 @@ export default function FacilitiesPage() {
 
       <section>
         <div className="container grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="md:col-span-1">
+          <div className="hidden md:block md:col-span-1">
             <div className="p-8 bg-neutral-100 rounded-xl">
               <div className="text-xl font-medium text-primary mb-8">
                 <FilterIcon className="inline w-5 h-5 mr-2 align-middle" />
@@ -80,6 +80,10 @@ export default function FacilitiesPage() {
                 />
               </li>
             </ul>
+          </div>
+
+          <div className="md:hidden">
+            <FilterButton />
           </div>
         </div>
       </section>
