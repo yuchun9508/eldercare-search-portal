@@ -2,6 +2,7 @@ import FilterIcon from '../../components/icons/FilterIcon';
 import FacilityCard from '../../components/FacilityCard';
 import FilterForm from '../../components/FilterForm';
 import FilterButton from '../../components/FilterButton';
+import Container from '../../components/ui/Container';
 
 // TODO:
 // 2. filter functionality
@@ -11,7 +12,7 @@ export default function FacilitiesPage() {
   return (
     <div>
       <section>
-        <div className="container py-10">
+        <Container className="py-10">
           <h1 className="text-3xl font-bold text-primary mb-4">
             12間符合條件的照護機構
           </h1>
@@ -21,11 +22,11 @@ export default function FacilitiesPage() {
               松山區, 公設民營, 小型, 安養型, 優等
             </span>
           </p>
-        </div>
+        </Container>
       </section>
 
       <section>
-        <div className="container grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Container className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="hidden md:block md:col-span-1">
             <div className="p-8 bg-neutral-100 rounded-xl">
               <div className="text-xl font-medium text-primary mb-8">
@@ -85,7 +86,7 @@ export default function FacilitiesPage() {
           <div className="md:hidden">
             <FilterButton />
           </div>
-        </div>
+        </Container>
       </section>
     </div>
   );

@@ -54,11 +54,5 @@
   --color-primary: var(--color-neutral-900);
   --color-secondary: var(--color-teal-700);
   --color-tertiary: var(--color-sky-700);
-  --color-accent: var(--color-green-600);
-}
-
-@layer components {
-  .container {
-    @apply max-w-6xl mx-auto px-4 sm:px-6;
-  }
+  --color-accent: var(--color-sky-100);
 }

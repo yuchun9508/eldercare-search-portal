@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import SearchIcon from './icons/SearchIcon';
+import FullRoundedButton from './ui/FullRoundedButton';
 
 function Dropdown({
   id,
@@ -16,7 +17,7 @@ function Dropdown({
       <label htmlFor={id} className="block font-medium text-neutral-700 mb-2">
         {label}
       </label>
-      <select id={id} className="block w-full rounded-md bg-sky-100 p-3">
+      <select id={id} className="block w-full rounded-md bg-accent p-3">
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
@@ -86,13 +87,13 @@ export default function SearchBar() {
         </div>
 
         <div className="sm:flex-1/6">
-          <button
+          <FullRoundedButton
             type="submit"
-            className="px-8 py-3 bg-secondary text-white text-nowrap rounded-full w-full inline-flex justify-center items-center gap-2"
+            className="w-full inline-flex justify-center items-center gap-2"
           >
             <SearchIcon className="w-4 h-4" />
             <span>立即搜尋</span>
-          </button>
+          </FullRoundedButton>
         </div>
       </form>
 

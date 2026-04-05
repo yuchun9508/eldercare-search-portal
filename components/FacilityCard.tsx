@@ -3,6 +3,7 @@ import BuildingIcon from './icons/BuildingIcon';
 import LocationIcon from './icons/LocationIcon';
 import PhoneIcon from './icons/PhoneIcon';
 import VerifiedIcon from './icons/VerifiedIcon';
+import FullRoundedButton from './ui/FullRoundedButton';
 
 function SubTitle({ children }: { children: React.ReactNode }) {
   return (
@@ -55,7 +56,7 @@ export default function FacilityCard({
       <div className="flex justify-between gap-4 pb-4">
         <div>
           <div className="text-primary text-2xl font-medium mb-1">{name}</div>
-          <div className="lg:hidden text-accent font-semibold mb-1">
+          <div className="lg:hidden text-green-600 font-semibold mb-1">
             <VerifiedIcon className="inline-block w-4 h-4 mr-1 align-middle" />
             <span className="align-middle">
               {verifiedYear}年度評鑑{verifiedGrade}
@@ -68,7 +69,7 @@ export default function FacilityCard({
         </div>
 
         <div className="hidden lg:flex flex-col items-end text-nowrap">
-          <div className="text-accent font-semibold mb-1 bg-accent/10 rounded-full px-4 py-1 inline-block">
+          <div className="text-green-600 font-semibold mb-1 bg-green-600/10 rounded-full px-4 py-1 inline-block">
             <VerifiedIcon className="inline-block w-4 h-4 mr-1 align-middle" />
             <span className="align-middle">{verifiedGrade}機構</span>
           </div>
@@ -112,17 +113,19 @@ export default function FacilityCard({
       </div>
 
       <div className="flex align-items-center gap-4 pt-6">
-        <a
-          href={`tel:${tel}`}
-          className="flex-1/2 lg:flex-none px-9 py-3 bg-tertiary text-white font-semibold text-center rounded-full"
-        >
-          立即洽詢
+        <a href={`tel:${tel}`} className="flex-1/2 lg:flex-none">
+          <FullRoundedButton bgColor="tertiary" className="w-full">
+            立即洽詢
+          </FullRoundedButton>
         </a>
-        <a
-          href={googleMapsUrl}
-          className="flex-1/2  lg:flex-none px-9 py-3 bg-sky-200 text-tertiary font-semibold text-center rounded-full"
-        >
-          在地圖上查看
+        <a href={googleMapsUrl} className="flex-1/2 lg:flex-none">
+          <FullRoundedButton
+            bgColor="accent"
+            textColor="tertiary"
+            className="w-full"
+          >
+            在地圖上查看
+          </FullRoundedButton>
         </a>
       </div>
     </div>

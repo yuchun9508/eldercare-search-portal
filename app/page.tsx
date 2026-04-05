@@ -9,6 +9,7 @@ import NursingIcon from '../components/icons/NursingIcon';
 import AssistIcon from '../components/icons/AssistIcon';
 import MemoryIcon from '../components/icons/MemoryIcon';
 import FeatureCard from '../components/FeatureCard';
+import Container from '../components/ui/Container';
 
 // TODO:
 // 1. check reused components (dropdown, button and so on)
@@ -19,7 +20,7 @@ export default function HomePage() {
       <section
         className={`h-[110vh] bg-[url(/google_stitch_generated_image_01.png)] bg-cover bg-top-center`}
       >
-        <div className="container h-full flex items-center">
+        <Container className="h-full flex items-center">
           <div className="w-2xl">
             <h1 className="text-4xl sm:text-5xl text-primary font-extrabold mb-8">
               為您所愛的人找到
@@ -30,11 +31,11 @@ export default function HomePage() {
             </p>
             <SearchBar />
           </div>
-        </div>
+        </Container>
       </section>
 
       <section className="py-20">
-        <div className="container">
+        <Container>
           <div className="flex items-end justify-between mb-10">
             <div>
               <p className="text-secondary font-medium mb-2">量身打造的選項</p>
@@ -66,11 +67,11 @@ export default function HomePage() {
               description="提供護理人員24小時照護、醫師巡診、管路照護、專業傷口換藥。適合罹患長期慢性病、失能程度較重、有頻繁護理需求、需鼻胃管、導尿管、氣切管的長輩。"
             />
           </div>
-        </div>
+        </Container>
       </section>
 
       <section className="py-20 bg-secondary/5">
-        <div className="container">
+        <Container>
           <h2 className="text-2xl sm:text-3xl font-semibold text-primary text-center">
             值得信賴的資訊來源
           </h2>
@@ -95,7 +96,7 @@ export default function HomePage() {
               description="整合政府機構年度評鑑成績，經政府檢驗公開透明的機構評級。"
             />
           </div>
-        </div>
+        </Container>
       </section>
     </div>
   );

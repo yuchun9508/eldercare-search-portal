@@ -1,11 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 import Logo from './Logo';
+import Container from './ui/Container';
 
 export default function Header() {
   return (
     <header className="bg-neutral-50 border-b border-neutral-100">
-      <div className="container">
+      <Container>
         <div className="flex items-center justify-between h-16">
           <Link
             href="/"
@@ -22,7 +23,7 @@ export default function Header() {
             <Link href="/about">關於</Link>
           </nav>
         </div>
-      </div>
+      </Container>
     </header>
   );
 }
