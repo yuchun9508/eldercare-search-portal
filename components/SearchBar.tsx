@@ -1,5 +1,31 @@
 'use client';
 import React, { useState } from 'react';
+import SearchIcon from './icons/SearchIcon';
+
+function Dropdown({
+  id,
+  label,
+  options,
+}: {
+  id: string;
+  label: string;
+  options: { value: string; label: string }[];
+}) {
+  return (
+    <div>
+      <label htmlFor={id} className="block font-medium text-neutral-700 mb-2">
+        {label}
+      </label>
+      <select id={id} className="block w-full rounded-md bg-sky-100 p-3">
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
 
 export default function SearchBar() {
   const [category, setCategory] = useState('all');
@@ -18,63 +44,56 @@ export default function SearchBar() {
   }
 
   return (
-    <div className="inline-block px-5 py-10 shadow-lg rounded-md bg-white">
+    <div className="px-8 py-6 shadow-lg rounded-xl bg-white">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-wrap gap-2 items-center"
+        className="flex flex-col sm:flex-row gap-4 sm:items-end"
       >
-        <span className="text-nowrap">我在尋找位於</span>
+        <div className="sm:flex-3/6">
+          <Dropdown
+            id="category"
+            label="照護服務"
+            options={[
+              { value: 'all', label: '所有類型' },
+              { value: 'facilities', label: '安養型' },
+              { value: 'services', label: '養護型' },
+              { value: 'longterm', label: '長期照護型' },
+              { value: 'dementia', label: '失智照顧型' },
+            ]}
+          />
+        </div>
 
-        <label htmlFor="district" className="sr-only">
-          District
-        </label>
-        <select
-          id="district"
-          value={district}
-          onChange={(e) => setDistrict(e.target.value)}
-          className="rounded-md border border-gray-300 px-3 py-2"
-        >
-          <option value="all">台北市全部區域</option>
-          <option value="Zhongzheng">中正區</option>
-          <option value="Wanhua">萬華區</option>
-          <option value="Datong">大同區</option>
-          <option value="Zhongshan">中山區</option>
-          <option value="Songshan">松山區</option>
-          <option value="Daan">大安區</option>
-          <option value="Xinyi">信義區</option>
-          <option value="Neihu">內湖區</option>
-          <option value="Nangang">南港區</option>
-          <option value="Shilin">士林區</option>
-          <option value="Beitou">北投區</option>
-          <option value="Wenshan">文山區</option>
-        </select>
+        <div className="sm:flex-2/6">
+          <Dropdown
+            id="district"
+            label="地區"
+            options={[
+              { value: 'all', label: '台北市全部區域' },
+              { value: 'Zhongzheng', label: '中正區' },
+              { value: 'Wanhua', label: '萬華區' },
+              { value: 'Datong', label: '大同區' },
+              { value: 'Zhongshan', label: '中山區' },
+              { value: 'Songshan', label: '松山區' },
+              { value: 'Daan', label: '大安區' },
+              { value: 'Xinyi', label: '信義區' },
+              { value: 'Neihu', label: '內湖區' },
+              { value: 'Nangang', label: '南港區' },
+              { value: 'Shilin', label: '士林區' },
+              { value: 'Beitou', label: '北投區' },
+              { value: 'Wenshan', label: '文山區' },
+            ]}
+          />
+        </div>
 
-        <span>的</span>
-
-        <label htmlFor="category" className="sr-only">
-          Category
-        </label>
-        <select
-          id="category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="rounded-md border border-gray-300 px-3 py-2"
-        >
-          <option value="all">所有類型</option>
-          <option value="facilities">安養型</option>
-          <option value="services">養護型</option>
-          <option value="longterm">長期照護型</option>
-          <option value="dementia">失智照顧型</option>
-        </select>
-
-        <span className="text-nowrap">機構</span>
-
-        <button
-          type="submit"
-          className="px-4 py-2 bg-secondary text-white text-nowrap rounded-md"
-        >
-          前往搜尋
-        </button>
+        <div className="sm:flex-1/6">
+          <button
+            type="submit"
+            className="px-8 py-3 bg-secondary text-white text-nowrap rounded-full w-full inline-flex justify-center items-center gap-2"
+          >
+            <SearchIcon className="w-4 h-4" />
+            <span>立即搜尋</span>
+          </button>
+        </div>
       </form>
 
       {results && (

@@ -4,7 +4,7 @@ import Logo from './Logo';
 
 export default function Header() {
   return (
-    <header className="bg-primary">
+    <header className="bg-neutral-50 border-b border-neutral-100">
       <div className="container">
         <div className="flex items-center justify-between h-16">
           <Link
@@ -12,12 +12,12 @@ export default function Header() {
             className="flex items-center gap-3"
             aria-label="Eldercare home"
           >
-            <Logo className="w-8 h-8 text-white" />
-            <span className="text-lg font-bold text-white">
+            <Logo className="w-8 h-8 text-secondary" />
+            <span className="text-lg font-bold text-secondary">
               銀髮照護資源搜尋
             </span>
           </Link>
-          <nav className="space-x-4 text-sm text-white">
+          <nav className="space-x-4 text-sm text-primary">
             <Link href="/search">搜尋</Link>
             <Link href="/about">關於</Link>
           </nav>

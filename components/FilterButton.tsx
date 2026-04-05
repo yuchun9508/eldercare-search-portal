@@ -10,10 +10,10 @@ export default function FilterButton() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-4 left-1/2 transform -translate-x-1/2 px-9 py-3 bg-secondary text-white border border-teal-200/20 font-semibold rounded-full"
+        className="fixed bottom-4 left-1/2 transform -translate-x-1/2 px-9 py-3 bg-secondary text-white border border-teal-200/20 font-semibold rounded-full inline-flex items-center gap-2"
       >
-        <FilterIcon className="inline w-4 h-4 mr-2 align-middle" />
-        <span className="align-middle">篩選器</span>
+        <FilterIcon className="w-4 h-4" />
+        <span>篩選器</span>
       </button>
 
       {isOpen && (
