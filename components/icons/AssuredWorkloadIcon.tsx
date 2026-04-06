@@ -1,24 +1,16 @@
-import React from 'react';
-
-type AssuredWorkloadIconProps = {
-  className?: string;
-  width?: number | string;
-  height?: number | string;
-};
-
 export default function AssuredWorkloadIcon({
   className = '',
-  width = 96,
-  height = 96,
-}: AssuredWorkloadIconProps) {
+}: {
+  className?: string;
+}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      width={width}
-      height={height}
+      width="96"
+      height="96"
       viewBox="0 0 96 96"
       fill="none"
+      className={className}
     >
       <g clipPath="url(#clip0_38_47)">
         <path d="M28 40H20V68H28V40Z" fill="currentColor" />

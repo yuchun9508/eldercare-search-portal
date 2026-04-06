@@ -1,24 +1,12 @@
-import React from 'react';
-
-type StarIconProps = {
-  className?: string;
-  width?: number | string;
-  height?: number | string;
-};
-
-export default function StarIcon({
-  className = '',
-  width = 96,
-  height = 96,
-}: StarIconProps) {
+export default function StarIcon({ className = '' }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      width={width}
-      height={height}
+      width="96"
+      height="96"
       viewBox="0 0 96 96"
       fill="none"
+      className={className}
     >
       <g clipPath="url(#clip0_38_38)">
         <path

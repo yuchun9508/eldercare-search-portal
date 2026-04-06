@@ -1,24 +1,12 @@
-import React from 'react';
-
-type UpdateIconProps = {
-  className?: string;
-  width?: number | string;
-  height?: number | string;
-};
-
-export default function UpdateIcon({
-  className = '',
-  width = 96,
-  height = 96,
-}: UpdateIconProps) {
+export default function UpdateIcon({ className = '' }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      width={width}
-      height={height}
+      width="96"
+      height="96"
       viewBox="0 0 96 96"
       fill="none"
+      className={className}
     >
       <g clipPath="url(#clip0_38_41)">
         <path

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import SearchIcon from './icons/SearchIcon';
 import FullRoundedButton from './ui/FullRoundedButton';
+import SVGIcon from './ui/SVGIcon';
 
 function Dropdown({
   id,
@@ -91,7 +92,7 @@ export default function SearchBar() {
             type="submit"
             className="w-full inline-flex justify-center items-center gap-2"
           >
-            <SearchIcon className="w-4 h-4" />
+            <SVGIcon icon={SearchIcon} />
             <span>立即搜尋</span>
           </FullRoundedButton>
         </div>

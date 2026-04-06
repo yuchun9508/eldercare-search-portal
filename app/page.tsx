@@ -10,6 +10,7 @@ import AssistIcon from '../components/icons/AssistIcon';
 import MemoryIcon from '../components/icons/MemoryIcon';
 import FeatureCard from '../components/FeatureCard';
 import Container from '../components/ui/Container';
+import SVGIcon from '../components/ui/SVGIcon';
 
 // TODO:
 // 1. check reused components (dropdown, button and so on)
@@ -45,8 +46,8 @@ export default function HomePage() {
             </div>
 
             <button className=" text-secondary font-semibold inline-flex items-center gap-1">
-              查看所有服務
-              <ShortArrowIcon className="w-4 h-4" />
+              <span>查看所有服務</span>
+              <SVGIcon icon={ShortArrowIcon} />
             </button>
           </div>
 

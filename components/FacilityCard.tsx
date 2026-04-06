@@ -4,6 +4,7 @@ import LocationIcon from './icons/LocationIcon';
 import PhoneIcon from './icons/PhoneIcon';
 import VerifiedIcon from './icons/VerifiedIcon';
 import FullRoundedButton from './ui/FullRoundedButton';
+import SVGIcon from './ui/SVGIcon';
 
 function SubTitle({ children }: { children: React.ReactNode }) {
   return (
@@ -22,7 +23,7 @@ function IconText({
 }) {
   return (
     <div className="flex items-center gap-2">
-      <Icon className="w-4 h-4 text-tertiary" />
+      <SVGIcon icon={Icon} className="text-tertiary" />
       <span className="text-primary">{text}</span>
     </div>
   );
@@ -56,22 +57,22 @@ export default function FacilityCard({
       <div className="flex justify-between gap-4 pb-4">
         <div>
           <div className="text-primary text-2xl font-medium mb-1">{name}</div>
-          <div className="lg:hidden text-green-600 font-semibold mb-1">
-            <VerifiedIcon className="inline-block w-4 h-4 mr-1 align-middle" />
-            <span className="align-middle">
+          <div className="lg:hidden text-green-600 font-semibold mb-1 flex items-center gap-1">
+            <SVGIcon icon={VerifiedIcon} />
+            <span>
               {verifiedYear}年度評鑑{verifiedGrade}
             </span>
           </div>
-          <div className="text-neutral-700">
-            <LocationIcon className="inline w-4 h-4 mr-1 align-middle" />
-            <span className="align-middle">{address}</span>
+          <div className="text-neutral-700 flex items-center gap-1">
+            <SVGIcon icon={LocationIcon} />
+            <span>{address}</span>
           </div>
         </div>
 
         <div className="hidden lg:flex flex-col items-end text-nowrap">
-          <div className="text-green-600 font-semibold mb-1 bg-green-600/10 rounded-full px-4 py-1 inline-block">
-            <VerifiedIcon className="inline-block w-4 h-4 mr-1 align-middle" />
-            <span className="align-middle">{verifiedGrade}機構</span>
+          <div className="text-green-600 font-semibold mb-1 bg-green-600/10 rounded-full px-4 py-1 inline-flex items-center gap-1">
+            <SVGIcon icon={VerifiedIcon} />
+            <span>{verifiedGrade}機構</span>
           </div>
           <div className="text-xs text-neutral-700">
             獲得評鑑年度為{verifiedYear}年
