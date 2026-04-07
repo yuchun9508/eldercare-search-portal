@@ -1,33 +1,9 @@
 'use client';
 import React, { useState } from 'react';
+import Dropdown from './ui/Dropdown';
 import SearchIcon from './icons/SearchIcon';
 import FullRoundedButton from './ui/FullRoundedButton';
 import SVGIcon from './ui/SVGIcon';
-
-function Dropdown({
-  id,
-  label,
-  options,
-}: {
-  id: string;
-  label: string;
-  options: { value: string; label: string }[];
-}) {
-  return (
-    <div>
-      <label htmlFor={id} className="block font-medium text-neutral-700 mb-2">
-        {label}
-      </label>
-      <select id={id} className="block w-full rounded-md bg-accent p-3">
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-}
 
 export default function SearchBar() {
   const [category, setCategory] = useState('all');
@@ -62,6 +38,9 @@ export default function SearchBar() {
               { value: 'longterm', label: '長期照護型' },
               { value: 'dementia', label: '失智照顧型' },
             ]}
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            variant="accent"
           />
         </div>
 
@@ -84,6 +63,9 @@ export default function SearchBar() {
               { value: 'Beitou', label: '北投區' },
               { value: 'Wenshan', label: '文山區' },
             ]}
+            value={district}
+            onChange={(e) => setDistrict(e.target.value)}
+            variant="accent"
           />
         </div>
 

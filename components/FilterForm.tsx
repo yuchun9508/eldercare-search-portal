@@ -1,30 +1,4 @@
-function Dropdown({
-  id,
-  label,
-  options,
-}: {
-  id: string;
-  label: string;
-  options: { value: string; label: string }[];
-}) {
-  return (
-    <div>
-      <label htmlFor={id} className="block font-medium text-neutral-800 mb-2">
-        {label}
-      </label>
-      <select
-        id={id}
-        className="block w-full rounded-md border border-neutral-200 bg-white p-2"
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-}
+import Dropdown from './ui/Dropdown';
 
 function Checkbox({
   groupId,
