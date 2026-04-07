@@ -1,13 +1,18 @@
 type FullRoundedButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode;
-  bgColor?: 'primary' | 'secondary' | 'tertiary' | 'accent';
-  textColor?: 'primary' | 'secondary' | 'tertiary' | 'accent' | 'white';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'accent';
+};
+
+const VARIANT_CLASSES: Record<string, string> = {
+  primary: 'bg-primary text-white',
+  secondary: 'bg-secondary text-white',
+  tertiary: 'bg-tertiary text-white',
+  accent: 'bg-accent text-tertiary',
 };
 
 export default function FullRoundedButton({
   children,
-  bgColor = 'secondary',
-  textColor = 'white',
+  variant = 'secondary',
   ...props
 }: FullRoundedButtonProps) {
   const { className, ...rest } = props;
@@ -15,7 +20,7 @@ export default function FullRoundedButton({
   return (
     <button
       {...rest}
-      className={`px-9 py-3 bg-${bgColor} text-${textColor} font-semibold text-center text-nowrap rounded-full ${className || ''}`}
+      className={`px-9 py-3 font-semibold text-center text-nowrap rounded-full ${VARIANT_CLASSES[variant]} ${className || ''}`}
     >
       {children}
     </button>

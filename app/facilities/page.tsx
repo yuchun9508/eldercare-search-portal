@@ -3,7 +3,7 @@ import FacilityCard from '../../components/FacilityCard';
 import FilterForm from '../../components/FilterForm';
 import FilterButton from '../../components/FilterButton';
 import Container from '../../components/ui/Container';
-import SVGIcon, { IconSize } from '../../components/ui/SVGIcon';
+import SVGIcon from '../../components/ui/SVGIcon';
 
 // TODO:
 // 2. filter functionality
@@ -31,7 +31,7 @@ export default function FacilitiesPage() {
           <div className="hidden md:block md:col-span-1">
             <div className="p-8 bg-neutral-100 rounded-xl">
               <div className="text-xl font-medium text-primary mb-8 flex items-center gap-2">
-                <SVGIcon icon={FilterIcon} size={IconSize.SMALL} />
+                <SVGIcon icon={FilterIcon} size="sm" />
                 <span>篩選器</span>
               </div>
               <FilterForm />

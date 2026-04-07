@@ -6,7 +6,7 @@ import VerifiedIcon from './icons/VerifiedIcon';
 import FullRoundedButton from './ui/FullRoundedButton';
 import SVGIcon from './ui/SVGIcon';
 
-function SubTitle({ children }: { children: React.ReactNode }) {
+function Subtitle({ children }: { children: React.ReactNode }) {
   return (
     <div className="text-sm font-semibold text-neutral-700 mb-2">
       {children}
@@ -14,7 +14,7 @@ function SubTitle({ children }: { children: React.ReactNode }) {
   );
 }
 
-function IconText({
+function IconWithText({
   icon: Icon,
   text,
 }: {
@@ -82,7 +82,7 @@ export default function FacilityCard({
 
       <div className="border-y border-neutral-200 py-4 flex flex-col lg:flex-row gap-4">
         <div className="lg:flex-1/3">
-          <SubTitle>服務對象</SubTitle>
+          <Subtitle>服務對象</Subtitle>
           <ul className="inline-flex gap-2 items-center flex-wrap">
             {serviceTypes.map((type) => (
               <li
@@ -96,35 +96,31 @@ export default function FacilityCard({
         </div>
 
         <div className="lg:flex-1/3">
-          <SubTitle>機構屬性與規模</SubTitle>
+          <Subtitle>機構屬性與規模</Subtitle>
           <div className="flex gap-4 lg:block">
             <div className="flex-1/2">
-              <IconText icon={BuildingIcon} text={ownershipType} />
+              <IconWithText icon={BuildingIcon} text={ownershipType} />
             </div>
             <div className="flex-1/2">
-              <IconText icon={BedIcon} text={`${facilitySize} 床`} />
+              <IconWithText icon={BedIcon} text={`${facilitySize} 床`} />
             </div>
           </div>
         </div>
 
         <div className="lg:flex-1/3">
-          <SubTitle>聯絡資訊</SubTitle>
-          <IconText icon={PhoneIcon} text={tel} />
+          <Subtitle>聯絡資訊</Subtitle>
+          <IconWithText icon={PhoneIcon} text={tel} />
         </div>
       </div>
 
       <div className="flex align-items-center gap-4 pt-6">
         <a href={`tel:${tel}`} className="flex-1/2 lg:flex-none">
-          <FullRoundedButton bgColor="tertiary" className="w-full">
+          <FullRoundedButton variant="tertiary" className="w-full">
             立即洽詢
           </FullRoundedButton>
         </a>
         <a href={googleMapsUrl} className="flex-1/2 lg:flex-none">
-          <FullRoundedButton
-            bgColor="accent"
-            textColor="tertiary"
-            className="w-full"
-          >
+          <FullRoundedButton variant="accent" className="w-full">
             在地圖上查看
           </FullRoundedButton>
         </a>
