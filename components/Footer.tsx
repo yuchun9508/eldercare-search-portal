@@ -2,7 +2,7 @@ import Container from './ui/Container';
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-800 text-white py-6">
+    <footer className="bg-secondary/5 text-neutral-700 border-t border-neutral-400/20 py-6">
       <Container className="text-center">
         <p className="text-sm">
           &copy; {new Date().getFullYear()} 銀髮照護資源搜尋. 版權所有.

@@ -12,9 +12,6 @@ import FeatureCard from '../components/FeatureCard';
 import Container from '../components/ui/Container';
 import SVGIcon from '../components/ui/SVGIcon';
 
-// TODO:
-// 1. check reused components (dropdown, button and so on)
-// 2. create an icon wrapper
 export default function HomePage() {
   return (
     <div>
@@ -71,7 +68,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      <section className="py-20 bg-secondary/5">
+      <section className="py-20 bg-secondary/5 mb-20">
         <Container>
           <h2 className="text-2xl sm:text-3xl font-semibold text-primary text-center">
             值得信賴的資訊來源
