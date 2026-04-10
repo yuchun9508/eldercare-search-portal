@@ -1,15 +1,15 @@
+'use client';
 import FilterIcon from '../../components/icons/FilterIcon';
 import FacilityCard from '../../components/FacilityCard';
 import FilterForm from '../../components/FilterForm';
 import FilterButton from '../../components/FilterButton';
 import Container from '../../components/ui/Container';
 import SVGIcon from '../../components/ui/SVGIcon';
+import useFacilities from '../../hooks/useFacilities';
 
-// TODO:
-// 2. filter functionality
-// 3. fetch data from API
-// 4. pagination UI or fetch on scroll.
 export default function FacilitiesPage() {
+  const facilities = useFacilities() ?? []; // TODO: 1.pass query from filter form 2.handle loading and error states
+
   return (
     <div>
       <section>
@@ -40,47 +40,21 @@ export default function FacilitiesPage() {
 
           <div className="md:col-span-2 px-4 sm:px-6">
             <ul>
-              <li className="mb-6">
-                <FacilityCard
-                  name="臺北市至善老人安養護中心"
-                  address="臺北市士林區永福里001鄰仰德大道2段2巷50號"
-                  tel="(02)28832666"
-                  googleMapsUrl="https://goo.gl/maps/xyz"
-                  serviceTypes={['安養', '養護', '長照']}
-                  ownershipType="公設民營"
-                  facilitySize="471"
-                  verifiedGrade="優等"
-                  verifiedYear="112"
-                />
-              </li>
-
-              <li className="mb-6">
-                <FacilityCard
-                  name="臺北市私立璞園老人長期照顧中心(養護型)"
-                  address="臺北市士林區富光里010鄰葫蘆街33號4、5、6樓"
-                  tel="(02)28163696"
-                  googleMapsUrl="https://goo.gl/maps/xyz"
-                  serviceTypes={['長照']}
-                  ownershipType="私立"
-                  facilitySize="46"
-                  verifiedGrade="甲等"
-                  verifiedYear="111"
-                />
-              </li>
-
-              <li className="mb-6">
-                <FacilityCard
-                  name="臺北市私立永青老人長期照顧中心(養護型)"
-                  address="臺北市士林區天壽里003鄰中山北路6段427巷8號1-4樓"
-                  tel="(02)28761908"
-                  googleMapsUrl="https://goo.gl/maps/xyz"
-                  serviceTypes={['長照']}
-                  ownershipType="私立"
-                  facilitySize="31"
-                  verifiedGrade="甲等"
-                  verifiedYear="111"
-                />
-              </li>
+              {facilities.map((f) => (
+                <li key={f.id} className="mb-6">
+                  <FacilityCard
+                    name={f.name}
+                    address={f.address}
+                    tel={f.tel}
+                    googleMapsUrl={f.googleMapsUrl}
+                    serviceTypes={f.serviceTypes}
+                    ownershipType={f.ownershipType}
+                    facilitySize={f.facilitySize}
+                    verifiedGrade={f.verifiedGrade}
+                    verifiedYear={f.verifiedYear}
+                  />
+                </li>
+              ))}
             </ul>
           </div>
 
