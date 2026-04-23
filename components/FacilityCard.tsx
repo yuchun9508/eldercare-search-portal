@@ -36,7 +36,7 @@ type FacilityCardProps = {
   googleMapsUrl: string;
   serviceTypes: string[];
   ownershipType: string;
-  facilitySize: string;
+  totalBeds: string;
   verifiedGrade: string | null;
   verifiedYear: string | null;
 };
@@ -48,7 +48,7 @@ export default function FacilityCard({
   googleMapsUrl,
   serviceTypes,
   ownershipType,
-  facilitySize,
+  totalBeds,
   verifiedGrade,
   verifiedYear,
 }: FacilityCardProps) {
@@ -102,7 +102,7 @@ export default function FacilityCard({
               <IconWithText icon={BuildingIcon} text={ownershipType} />
             </div>
             <div className="flex-1/2">
-              <IconWithText icon={BedIcon} text={`${facilitySize} 床`} />
+              <IconWithText icon={BedIcon} text={`${totalBeds} 床`} />
             </div>
           </div>
         </div>

@@ -6,22 +6,30 @@ import FilterButton from '../../components/FilterButton';
 import Container from '../../components/ui/Container';
 import SVGIcon from '../../components/ui/SVGIcon';
 import useFacilities from '../../hooks/useFacilities';
+import { useFilters } from '../../context/FilterContext';
+import { getLabelForValue } from '../../lib/options-utils';
 
 export default function FacilitiesPage() {
-  const facilities = useFacilities() ?? []; // TODO: 1.pass query from filter form 2.handle loading and error states
+  const { filters } = useFilters();
+  const facilities = useFacilities(filters) ?? []; // TODO: handle loading and error states
 
   return (
     <div>
       <section>
         <Container className="py-10">
           <h1 className="text-3xl font-bold text-primary mb-4">
-            12間符合條件的照護機構
+            {facilities.length}間符合條件的照護機構
           </h1>
           <p className="text-neutral-700 font-semibold">
-            搜尋條件為
+            搜尋位於
             <span className="text-secondary">
-              松山區, 公設民營, 小型, 安養型, 優等
+              {getLabelForValue(filters.district)}
             </span>
+            的
+            <span className="text-secondary">
+              {getLabelForValue(filters.category)}
+            </span>
+            機構
           </p>
         </Container>
       </section>
@@ -49,7 +57,7 @@ export default function FacilitiesPage() {
                     googleMapsUrl={f.googleMapsUrl}
                     serviceTypes={f.serviceTypes}
                     ownershipType={f.ownershipType}
-                    facilitySize={f.facilitySize}
+                    totalBeds={f.totalBeds}
                     verifiedGrade={f.verifiedGrade}
                     verifiedYear={f.verifiedYear}
                   />

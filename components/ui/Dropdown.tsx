@@ -1,7 +1,5 @@
-'use client';
 import React from 'react';
-
-type Option = { value: string; label: string };
+import { Option } from '../../data/options';
 
 type DropdownProps = {
   id: string;
@@ -35,6 +33,7 @@ export default function Dropdown({
       )}
       <select
         id={id}
+        name={id}
         value={value}
         onChange={onChange}
         className={`block w-full rounded-md ${VARIANT_CLASSES[variant]}`}

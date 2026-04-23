@@ -1,14 +1,39 @@
+'use client';
+import { useEffect, useState } from 'react';
 import Dropdown from './ui/Dropdown';
+import {
+  CATEGORIES,
+  Option,
+  DISTRICTS,
+  FACILITY_SIZES,
+  OWNERSHIP_TYPES,
+  VERIFIED_GRADES,
+} from '../data/options';
+import { useFilters } from '../context/FilterContext';
+
+// TODO: extract as ui component
+type CheckboxProps = {
+  groupId: string;
+  label: string;
+  options: Option[];
+  values: Option['value'][];
+  onChange: (selectedValues: Option['value'][]) => void;
+};
 
 function Checkbox({
   groupId,
   label,
   options,
-}: {
-  groupId: string;
-  label: string;
-  options: { id: string; value: string; label: string }[];
-}) {
+  values,
+  onChange,
+}: CheckboxProps) {
+  function handleCheckboxChange(optionValue: Option['value']) {
+    const next = values.includes(optionValue)
+      ? values.filter((v) => v !== optionValue)
+      : [...values, optionValue];
+    onChange(next);
+  }
+
   return (
     <fieldset>
       <legend className="block font-medium text-neutral-800 mb-4">
@@ -16,15 +41,20 @@ function Checkbox({
       </legend>
       <div className="space-y-2">
         {options.map((option) => (
-          <div key={option.id} className="flex items-center">
+          <div key={`${groupId}-${option.value}`} className="flex items-center">
             <input
-              id={option.id}
+              id={`${groupId}-${option.value}`}
               name={groupId}
               type="checkbox"
               value={option.value}
               className="h-4 w-4 accent-secondary"
+              onChange={() => handleCheckboxChange(option.value)}
+              checked={values.includes(option.value)}
             />
-            <label htmlFor={option.id} className="ml-2 text-primary">
+            <label
+              htmlFor={`${groupId}-${option.value}`}
+              className="ml-2 text-primary"
+            >
               {option.label}
             </label>
           </div>
@@ -35,72 +65,88 @@ function Checkbox({
 }
 
 export default function FilterForm() {
+  // TODO: find cleaner solution for filters state management.
+  // The local state is needed to avoid updating the context (and URL) on every change,
+  // but it causes some boilerplate to keep it in sync with the context when the context is updated from other places (e.g. SearchBar).
+  const { filters, setFilters } = useFilters();
+
+  const [localFilters, setLocalFilters] = useState(filters);
+
+  useEffect(() => {
+    setLocalFilters(filters);
+  }, [filters]);
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    setFilters(localFilters);
+  }
+
   return (
-    <form className="space-y-8">
+    <form className="space-y-8" onSubmit={handleSubmit}>
       <Dropdown
         id="district"
         label="區域"
-        options={[
-          { value: 'all', label: '全部' },
-          { value: 'Zhongzheng', label: '中正區' },
-          { value: 'Wanhua', label: '萬華區' },
-          { value: 'Datong', label: '大同區' },
-          { value: 'Zhongshan', label: '中山區' },
-          { value: 'Songshan', label: '松山區' },
-          { value: 'Daan', label: '大安區' },
-          { value: 'Xinyi', label: '信義區' },
-          { value: 'Neihu', label: '內湖區' },
-          { value: 'Nangang', label: '南港區' },
-          { value: 'Shilin', label: '士林區' },
-          { value: 'Beitou', label: '北投區' },
-          { value: 'Wenshan', label: '文山區' },
-        ]}
+        value={localFilters.district}
+        onChange={(e) =>
+          setLocalFilters((prevState) => ({
+            ...prevState,
+            district: e.target.value,
+          }))
+        }
+        options={DISTRICTS}
       />
 
       <Dropdown
         id="category"
         label="照護類型"
-        options={[
-          { value: 'all', label: '全部' },
-          { value: 'facilities', label: '安養型' },
-          { value: 'services', label: '養護型' },
-          { value: 'longterm', label: '長期照護型' },
-        ]}
+        value={localFilters.category}
+        onChange={(e) =>
+          setLocalFilters((prevState) => ({
+            ...prevState,
+            category: e.target.value,
+          }))
+        }
+        options={CATEGORIES}
       />
 
       <Checkbox
         groupId="ownershipType"
         label="機構屬性"
-        options={[
-          {
-            id: 'ownershipSemiPublic',
-            value: 'semi-public',
-            label: '公設民營',
-          },
-          { id: 'ownershipPublic', value: 'public', label: '公立' },
-          { id: 'ownershipPrivate', value: 'private', label: '私立' },
-        ]}
+        options={OWNERSHIP_TYPES}
+        values={localFilters.ownershipType}
+        onChange={(selectedValues) =>
+          setLocalFilters((prevState) => ({
+            ...prevState,
+            ownershipType: selectedValues,
+          }))
+        }
       />
 
       <Checkbox
         groupId="facilitySize"
         label="機構規模"
-        options={[
-          { id: 'sizeSmall', value: 'small', label: '小型：49床以下' },
-          { id: 'sizeMedium', value: 'medium', label: '中型：50-149床' },
-          { id: 'sizeLarge', value: 'large', label: '大型：150床以上' },
-        ]}
+        options={FACILITY_SIZES}
+        values={localFilters.facilitySize}
+        onChange={(selectedValues) =>
+          setLocalFilters((prevState) => ({
+            ...prevState,
+            facilitySize: selectedValues,
+          }))
+        }
       />
 
       <Checkbox
         groupId="verifiedGrade"
         label="評鑑等級"
-        options={[
-          { id: 'gradeExcellent', value: 'excellent', label: '優等' },
-          { id: 'gradeA', value: 'a', label: '甲等' },
-          { id: 'gradeB', value: 'b', label: '乙等' },
-          { id: 'gradeC', value: 'c', label: '丙等' },
-        ]}
+        options={VERIFIED_GRADES}
+        values={localFilters.verifiedGrade}
+        onChange={(selectedValues) =>
+          setLocalFilters((prevState) => ({
+            ...prevState,
+            verifiedGrade: selectedValues,
+          }))
+        }
       />
 
       <button className="mt-4 w-full px-4 py-2 bg-secondary text-white font-semibold rounded-md">
