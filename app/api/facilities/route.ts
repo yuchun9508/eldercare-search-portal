@@ -24,22 +24,22 @@ export async function GET(request: Request) {
   const list = JSON.parse(raw) as FacilityRaw[];
 
   const url = new URL(request.url);
-  const districtQuery = url.searchParams.get('district');
-  const categoryQuery = url.searchParams.get('category');
+  const districtQuery = url.searchParams.get('district') || 'all';
+  const categoryQuery = url.searchParams.get('category') || 'all';
 
-  const districtQueryLabel = getLabelForValue(districtQuery || '');
-  const categoryQueryLabel = getLabelForValue(categoryQuery || '');
+  if (districtQuery === 'all' && categoryQuery === 'all') {
+    return NextResponse.json(list);
+  }
+
+  const districtQueryLabel = getLabelForValue(districtQuery);
+  const categoryQueryLabel = getLabelForValue(categoryQuery);
 
   const filtered = list.filter((item) => {
     const matchesDistrict =
-      !districtQuery || districtQuery === 'all'
-        ? true
-        : item.district === districtQueryLabel;
-
+      districtQuery === 'all' || item.district === districtQueryLabel;
     const matchesCategory =
-      !categoryQuery || categoryQuery === 'all'
-        ? true
-        : item.target_population.includes(categoryQueryLabel.substring(0, 2)); // Remove "型" suffix from category label
+      categoryQuery === 'all' ||
+      item.target_population.includes(categoryQueryLabel.substring(0, 2)); // Remove "型" suffix from category label
 
     return matchesDistrict && matchesCategory;
   });
