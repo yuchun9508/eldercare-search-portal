@@ -57,27 +57,31 @@ export default function FacilityCard({
       <div className="flex justify-between gap-4 pb-4">
         <div>
           <div className="text-primary text-2xl font-medium mb-1">{name}</div>
-          <div className="lg:hidden text-green-600 font-semibold mb-1 flex items-center gap-1">
-            <SVGIcon icon={VerifiedIcon} />
-            <span>
-              {verifiedYear}年度評鑑{verifiedGrade}
-            </span>
-          </div>
+          {verifiedGrade && verifiedYear && (
+            <div className="lg:hidden text-green-600 font-semibold mb-1 flex items-center gap-1">
+              <SVGIcon icon={VerifiedIcon} />
+              <span>
+                {verifiedYear}年度評鑑{verifiedGrade}
+              </span>
+            </div>
+          )}
           <div className="text-neutral-700 flex items-center gap-1">
             <SVGIcon icon={LocationIcon} />
             <span>{address}</span>
           </div>
         </div>
 
-        <div className="hidden lg:flex flex-col items-end text-nowrap">
-          <div className="text-green-600 font-semibold mb-1 bg-green-600/10 rounded-full px-4 py-1 inline-flex items-center gap-1">
-            <SVGIcon icon={VerifiedIcon} />
-            <span>{verifiedGrade}機構</span>
+        {verifiedGrade && verifiedYear && (
+          <div className="hidden lg:flex flex-col items-end text-nowrap">
+            <div className="text-green-600 font-semibold mb-1 bg-green-600/10 rounded-full px-4 py-1 inline-flex items-center gap-1">
+              <SVGIcon icon={VerifiedIcon} />
+              <span>{verifiedGrade}機構</span>
+            </div>
+            <div className="text-xs text-neutral-700">
+              獲得評鑑年度為{verifiedYear}年
+            </div>
           </div>
-          <div className="text-xs text-neutral-700">
-            獲得評鑑年度為{verifiedYear}年
-          </div>
-        </div>
+        )}
       </div>
 
       <div className="border-y border-neutral-200 py-4 flex flex-col lg:flex-row gap-4">
@@ -119,7 +123,12 @@ export default function FacilityCard({
             立即洽詢
           </FullRoundedButton>
         </a>
-        <a href={googleMapsUrl} className="flex-1/2 lg:flex-none">
+        <a
+          href={googleMapsUrl}
+          className="flex-1/2 lg:flex-none"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <FullRoundedButton variant="accent" className="w-full">
             在地圖上查看
           </FullRoundedButton>
