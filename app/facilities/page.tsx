@@ -1,17 +1,53 @@
 'use client';
+import { useRouter, useSearchParams } from 'next/navigation';
 import FilterIcon from '../../components/icons/FilterIcon';
 import FacilityCard from '../../components/FacilityCard';
 import FilterForm from '../../components/FilterForm';
-import FilterButton from '../../components/FilterButton';
 import Container from '../../components/ui/Container';
 import SVGIcon from '../../components/ui/SVGIcon';
 import useFacilities from '../../hooks/useFacilities';
-import { useFilters } from '../../context/FilterContext';
+import { Filters, defaultFilters } from '../../components/FilterForm';
 import { getLabelForValue } from '../../lib/options-utils';
+import { useReducer, useState } from 'react';
+import FullRoundedButton from '../../components/ui/FullRoundedButton';
+
+function reducer(
+  state: Filters,
+  action: { type: 'SET'; payload: Partial<Filters> },
+) {
+  switch (action.type) {
+    case 'SET':
+      return { ...state, ...action.payload };
+    default:
+      return state;
+  }
+}
 
 export default function FacilitiesPage() {
-  const { filters } = useFilters();
-  const facilities = useFacilities(filters) ?? []; // TODO: handle loading and error states
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const initial: Filters = {
+    ...defaultFilters,
+    district: searchParams.get('district') ?? defaultFilters.district,
+    category: searchParams.get('category') ?? defaultFilters.category,
+  };
+
+  const [filters, dispatch] = useReducer(reducer, initial);
+
+  const facilities = useFacilities(filters) ?? []; // TODO: handle loading, no result and error states
+
+  function handleApply(updated: Filters) {
+    dispatch({ type: 'SET', payload: updated });
+    setIsFilterOpen(false);
+
+    const params = new URLSearchParams();
+    params.set('district', updated.district);
+    params.set('category', updated.category);
+
+    router.replace(`/facilities?${params.toString()}`);
+  }
 
   return (
     <div>
@@ -42,7 +78,7 @@ export default function FacilitiesPage() {
                 <SVGIcon icon={FilterIcon} size="sm" />
                 <span>篩選器</span>
               </div>
-              <FilterForm />
+              <FilterForm initialFilters={filters} onApply={handleApply} />
             </div>
           </div>
 
@@ -67,7 +103,19 @@ export default function FacilitiesPage() {
           </div>
 
           <div className="md:hidden">
-            <FilterButton />
+            <FullRoundedButton
+              onClick={() => setIsFilterOpen(true)}
+              className="fixed bottom-4 left-1/2 transform -translate-x-1/2 border border-teal-200/20 inline-flex items-center gap-2"
+            >
+              <SVGIcon icon={FilterIcon} />
+              <span>篩選器</span>
+            </FullRoundedButton>
+
+            {isFilterOpen && (
+              <div className="fixed inset-0 p-8 bg-neutral-100 z-10 overflow-auto">
+                <FilterForm initialFilters={filters} onApply={handleApply} />
+              </div>
+            )}
           </div>
         </Container>
       </section>

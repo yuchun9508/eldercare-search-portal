@@ -9,7 +9,6 @@ import {
   OWNERSHIP_TYPES,
   VERIFIED_GRADES,
 } from '../data/options';
-import { useFilters } from '../context/FilterContext';
 
 // TODO: extract as ui component
 type CheckboxProps = {
@@ -64,22 +63,41 @@ function Checkbox({
   );
 }
 
-export default function FilterForm() {
-  // TODO: find cleaner solution for filters state management.
-  // The local state is needed to avoid updating the context (and URL) on every change,
-  // but it causes some boilerplate to keep it in sync with the context when the context is updated from other places (e.g. SearchBar).
-  const { filters, setFilters } = useFilters();
+export type Filters = {
+  district: string;
+  category: string;
+  ownershipType: string[];
+  facilitySize: string[];
+  verifiedGrade: string[];
+};
 
-  const [localFilters, setLocalFilters] = useState(filters);
+export const defaultFilters: Filters = {
+  district: 'all',
+  category: 'all',
+  ownershipType: [],
+  facilitySize: [],
+  verifiedGrade: [],
+};
+
+type FilterFormProps = {
+  initialFilters?: Filters;
+  onApply: (filters: Filters) => void;
+};
+
+export default function FilterForm({
+  initialFilters = defaultFilters,
+  onApply,
+}: FilterFormProps) {
+  // TODO: find possible cleaner solution for filters state management.
+  const [localFilters, setLocalFilters] = useState(initialFilters);
 
   useEffect(() => {
-    setLocalFilters(filters);
-  }, [filters]);
+    setLocalFilters(initialFilters);
+  }, [initialFilters]);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    setFilters(localFilters);
+    onApply(localFilters);
   }
 
   return (

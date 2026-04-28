@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Filters, defaultFilters } from '../context/FilterContext';
 import { getValueForLabel } from '../lib/options-utils';
+import { Filters, defaultFilters } from '../components/FilterForm';
 
 type FacilityRaw = {
   id: string;

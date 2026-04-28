@@ -5,22 +5,18 @@ import FullRoundedButton from './ui/FullRoundedButton';
 import SVGIcon from './ui/SVGIcon';
 import { CATEGORIES, DISTRICTS } from '../data/options';
 import { useRouter } from 'next/navigation';
-import { defaultFilters, useFilters } from '../context/FilterContext';
 
 export default function SearchBar() {
   const router = useRouter();
-  const { setFilters } = useFilters();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
+    const district = formData.get('district')!.toString();
+    const category = formData.get('category')!.toString();
 
-    setFilters({
-      category: formData.get('category')!.toString(),
-      district: formData.get('district')!.toString(),
-    });
-    router.push('/facilities');
+    router.push(`/facilities?district=${district}&category=${category}`);
   }
 
   return (
