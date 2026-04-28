@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import LongArrowIcon from './icons/LongArrowIcon';
 import SVGIcon from './ui/SVGIcon';
 
@@ -5,12 +6,14 @@ type CategoryCardProps = {
   icon: React.ComponentType;
   title: string;
   description: string;
+  link: string;
 };
 
 export default function CategoryCard({
   icon: Icon,
   title,
   description,
+  link,
 }: CategoryCardProps) {
   return (
     <div className="bg-secondary/5 p-10 rounded-2xl relative overflow-hidden">
@@ -20,10 +23,12 @@ export default function CategoryCard({
         <h3 className="text-2xl font-medium text-primary mb-4">{title}</h3>
         <p className="text-neutral-700">{description}</p>
       </div>
-      <button className="text-secondary font-semibold inline-flex items-center gap-1">
-        <span>查看更多</span>
-        <SVGIcon icon={LongArrowIcon} />
-      </button>
+      <Link href={link}>
+        <button className="text-secondary font-semibold inline-flex items-center gap-1">
+          <span>查看更多</span>
+          <SVGIcon icon={LongArrowIcon} />
+        </button>
+      </Link>
     </div>
   );
 }

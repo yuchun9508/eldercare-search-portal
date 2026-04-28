@@ -1,4 +1,3 @@
-import React from 'react';
 import SearchBar from '../components/SearchBar';
 import AssuredWorkloadIcon from '../components/icons/AssuredWorkloadIcon';
 import UpdateIcon from '../components/icons/UpdateIcon';
@@ -11,6 +10,7 @@ import MemoryIcon from '../components/icons/MemoryIcon';
 import FeatureCard from '../components/FeatureCard';
 import Container from '../components/ui/Container';
 import SVGIcon from '../components/ui/SVGIcon';
+import Link from 'next/link';
 
 export default function HomePage() {
   return (
@@ -42,10 +42,12 @@ export default function HomePage() {
               </h2>
             </div>
 
-            <button className=" text-secondary font-semibold inline-flex items-center gap-1">
-              <span>查看所有服務</span>
-              <SVGIcon icon={ShortArrowIcon} />
-            </button>
+            <Link href="/facilities">
+              <button className=" text-secondary font-semibold inline-flex items-center gap-1">
+                <span>查看所有服務</span>
+                <SVGIcon icon={ShortArrowIcon} />
+              </button>
+            </Link>
           </div>
 
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -53,16 +55,19 @@ export default function HomePage() {
               icon={NursingIcon}
               title="安養機構"
               description="提供住宿、膳食、休閒活動、生活諮詢。僅基本保健，無醫療行為。適合生活能自理、無重大疾病的長輩。"
+              link="/facilities?category=facilities"
             />
             <CategoryCard
               icon={AssistIcon}
               title="養護機構"
               description="提供日常生活照顧、基本護理、復健。適合需要他人協助日常生活但不涉及複雜護理的長輩。"
+              link="/facilities?category=services"
             />
             <CategoryCard
               icon={MemoryIcon}
               title="長期照顧中心"
               description="提供護理人員24小時照護、醫師巡診、管路照護、專業傷口換藥。適合罹患長期慢性病、失能程度較重、有頻繁護理需求、需鼻胃管、導尿管、氣切管的長輩。"
+              link="/facilities?category=longterm"
             />
           </div>
         </Container>
