@@ -36,7 +36,7 @@ export default function FacilitiesPage() {
 
   const [filters, dispatch] = useReducer(reducer, initial);
 
-  const facilities = useFacilities(filters) ?? []; // TODO: handle loading, no result and error states
+  const { filteredData: facilities, isLoading, error } = useFacilities(filters);
 
   function handleApply(updated: Filters) {
     dispatch({ type: 'SET', payload: updated });
@@ -83,23 +83,41 @@ export default function FacilitiesPage() {
           </div>
 
           <div className="md:col-span-2 px-4 sm:px-6">
-            <ul>
-              {facilities.map((f) => (
-                <li key={f.id} className="mb-6">
-                  <FacilityCard
-                    name={f.name}
-                    address={f.address}
-                    tel={f.tel}
-                    googleMapsUrl={f.googleMapsUrl}
-                    serviceTypes={f.serviceTypes}
-                    ownershipType={f.ownershipType}
-                    totalBeds={f.totalBeds}
-                    verifiedGrade={f.verifiedGrade}
-                    verifiedYear={f.verifiedYear}
-                  />
-                </li>
-              ))}
-            </ul>
+            {isLoading ? (
+              <p className="text-center text-neutral-500 mt-20">載入中...</p>
+            ) : (
+              <>
+                {facilities.length === 0 && (
+                  <p className="text-center text-neutral-500 mt-20">
+                    沒有找到符合條件的照護機構。
+                  </p>
+                )}
+                {facilities.length > 0 && (
+                  <ul>
+                    {facilities.map((f) => (
+                      <li key={f.id} className="mb-6">
+                        <FacilityCard
+                          name={f.name}
+                          address={f.address}
+                          tel={f.tel}
+                          googleMapsUrl={f.googleMapsUrl}
+                          serviceTypes={f.serviceTypes}
+                          ownershipType={f.ownershipType}
+                          totalBeds={f.totalBeds}
+                          verifiedGrade={f.verifiedGrade}
+                          verifiedYear={f.verifiedYear}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {error && (
+                  <p className="text-center text-neutral-500 mt-20">
+                    發生錯誤，無法載入資料。請稍後再試。
+                  </p>
+                )}
+              </>
+            )}
           </div>
 
           <div className="md:hidden">

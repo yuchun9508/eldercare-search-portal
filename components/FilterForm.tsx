@@ -35,7 +35,6 @@ export default function FilterForm({
   initialFilters = defaultFilters,
   onApply,
 }: FilterFormProps) {
-  // TODO: find possible cleaner solution for filters state management.
   const [localFilters, setLocalFilters] = useState(initialFilters);
 
   useEffect(() => {

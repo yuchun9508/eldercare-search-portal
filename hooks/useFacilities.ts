@@ -45,140 +45,175 @@ type FacilityItem = {
   verifiedYear: string | null;
 };
 
+function combineWithEvaluations(
+  facilitiesRaw: FacilityRaw[],
+  evalMap: Map<string, EvaluationRaw>,
+) {
+  return facilitiesRaw.map((f) => {
+    const ev = evalMap.get(f.phone);
+    return {
+      id: f.id,
+      name: f.name,
+      address: f.address,
+      tel: f.phone,
+      googleMapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(f.address)}`,
+      serviceTypes: f.target_population.split('、').map((s) => s.trim()),
+      ownershipType: f.ownership,
+      facilitySize:
+        parseInt(f.total_beds) >= 150
+          ? 'large'
+          : parseInt(f.total_beds) >= 50
+            ? 'medium'
+            : 'small',
+      totalBeds: f.total_beds,
+      verifiedGrade:
+        ev?.evaluation_2023 ||
+        ev?.evaluation_2019 ||
+        ev?.evaluation_2018 ||
+        ev?.evaluation_2017 ||
+        ev?.evaluation_2016 ||
+        ev?.evaluation_2015 ||
+        null,
+      verifiedYear: ev
+        ? ev.evaluation_2023
+          ? '2023'
+          : ev.evaluation_2019
+            ? '2019'
+            : ev.evaluation_2018
+              ? '2018'
+              : ev.evaluation_2017
+                ? '2017'
+                : ev.evaluation_2016
+                  ? '2016'
+                  : ev.evaluation_2015
+                    ? '2015'
+                    : null
+        : null,
+    };
+  });
+}
+
 export default function useFacilities(options: Filters = defaultFilters) {
-  const [data, setData] = useState<FacilityItem[] | null>(null);
+  const [data, setData] = useState<FacilityItem[]>([]);
   const evaluationMap = useRef(
     new Map<EvaluationRaw['phone'], EvaluationRaw>(),
   );
+  const facilitiesRawRef = useRef<FacilityRaw[] | null>(null);
 
-  // Since json data is provided labels instead of values, we need to filter the data on the client side based on the labels.
-  const filteredData = useMemo(() => {
-    return data
-      ? data.filter((item) => {
-          if (
-            options.ownershipType.length > 0 &&
-            !options.ownershipType.includes(
-              getValueForLabel(item.ownershipType),
-            )
-          ) {
-            return false;
-          }
-          if (
-            options.facilitySize.length > 0 &&
-            !options.facilitySize.includes(item.facilitySize)
-          ) {
-            return false;
-          }
-          if (
-            options.verifiedGrade.length > 0 &&
-            !options.verifiedGrade.includes(
-              getValueForLabel(item.verifiedGrade || ''),
-            )
-          ) {
-            return false;
-          }
-          return true;
-        })
-      : null;
-  }, [data, options]);
+  const [evaluationLoading, setEvaluationLoading] = useState(false);
+  const [evaluationError, setEvaluationError] = useState<Error | null>(null);
+  const [facilitiesLoading, setFacilitiesLoading] = useState(false);
+  const [facilitiesError, setFacilitiesError] = useState<Error | null>(null);
 
-  // console.log(data);
-  // console.log(filteredData);
-
+  // fetch evaluations once, populate evaluationMap, recompute if facilities already loaded
   useEffect(() => {
-    let mounted = true;
+    const ac = new AbortController();
+    setEvaluationLoading(true);
+    setEvaluationError(null);
 
     (async () => {
       try {
-        const eRes = await fetch('/api/facilities-evaluation');
-        const evaluationsRaw: EvaluationRaw[] = eRes.ok
-          ? await eRes.json()
-          : [];
+        const res = await fetch('/api/facilities-evaluation', {
+          signal: ac.signal,
+        });
+        if (!res.ok) {
+          throw new Error(`Evaluations fetch failed: ${res.status}`);
+        }
+        const evaluationsRaw: EvaluationRaw[] = await res.json();
+        // if aborted, stop here
+        if (ac.signal.aborted) return;
 
-        if (mounted) {
-          evaluationsRaw.forEach((ev) =>
-            evaluationMap.current.set(ev.phone, ev),
+        evaluationMap.current.clear();
+        evaluationsRaw.forEach((ev) => evaluationMap.current.set(ev.phone, ev));
+
+        // if we already fetched facilities, recompute combined list
+        if (facilitiesRawRef.current) {
+          const combined = combineWithEvaluations(
+            facilitiesRawRef.current,
+            evaluationMap.current,
           );
+          if (!ac.signal.aborted) setData(combined);
         }
       } catch (err) {
-        if (mounted) evaluationMap.current.clear();
-        // eslint-disable-next-line no-console
+        if (ac.signal.aborted) return;
+        setEvaluationError(err instanceof Error ? err : new Error(String(err)));
         console.error('Failed to fetch evaluations', err);
+      } finally {
+        if (!ac.signal.aborted) setEvaluationLoading(false);
       }
     })();
 
     return () => {
-      mounted = false;
+      ac.abort();
     };
   }, []);
 
-  // District and category are filtered on the server side since only single values are supported.
-  // Other filters are applied on the client side since they support multiple values and the json data is provided with labels instead of values.
+  // district and category are filtered on the server side
   const query = `?district=${encodeURIComponent(options.district)}&category=${encodeURIComponent(options.category)}`;
 
+  // fetch facilities per query; combine with whatever evalMap currently has and store raw
   useEffect(() => {
-    let mounted = true;
+    const ac = new AbortController();
+    setFacilitiesLoading(true);
+    setFacilitiesError(null);
 
     (async () => {
       try {
-        const fRes = await fetch(`/api/facilities${query}`);
-        const facilitiesRaw: FacilityRaw[] = fRes.ok ? await fRes.json() : [];
-
-        const combined: FacilityItem[] = facilitiesRaw.map((f) => {
-          const ev = evaluationMap.current.get(f.phone);
-          return {
-            id: f.id,
-            name: f.name,
-            address: f.address,
-            tel: f.phone,
-            googleMapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(f.address)}`,
-            serviceTypes: f.target_population.split('、').map((s) => s.trim()),
-            ownershipType: f.ownership,
-            facilitySize:
-              parseInt(f.total_beds) >= 150
-                ? 'large'
-                : parseInt(f.total_beds) >= 50
-                  ? 'medium'
-                  : 'small',
-            totalBeds: f.total_beds,
-            verifiedGrade:
-              ev?.evaluation_2023 ||
-              ev?.evaluation_2019 ||
-              ev?.evaluation_2018 ||
-              ev?.evaluation_2017 ||
-              ev?.evaluation_2016 ||
-              ev?.evaluation_2015 ||
-              null,
-            verifiedYear: ev
-              ? ev.evaluation_2023
-                ? '2023'
-                : ev.evaluation_2019
-                  ? '2019'
-                  : ev.evaluation_2018
-                    ? '2018'
-                    : ev.evaluation_2017
-                      ? '2017'
-                      : ev.evaluation_2016
-                        ? '2016'
-                        : ev.evaluation_2015
-                          ? '2015'
-                          : null
-              : null,
-          };
+        const res = await fetch(`/api/facilities${query}`, {
+          signal: ac.signal,
         });
+        if (!res.ok) {
+          throw new Error(`Facilities fetch failed: ${res.status}`);
+        }
+        const facilitiesRaw: FacilityRaw[] = await res.json();
+        if (ac.signal.aborted) return;
 
-        if (mounted) setData(combined);
+        facilitiesRawRef.current = facilitiesRaw;
+        const combined = combineWithEvaluations(
+          facilitiesRaw,
+          evaluationMap.current,
+        );
+        if (!ac.signal.aborted) setData(combined);
       } catch (err) {
-        if (mounted) setData(null);
-        // eslint-disable-next-line no-console
-        console.error('Failed to fetch facilities or evaluations', err);
+        if (ac.signal.aborted) return;
+        setFacilitiesError(err instanceof Error ? err : new Error(String(err)));
+        console.error('Failed to fetch facilities', err);
+      } finally {
+        if (!ac.signal.aborted) setFacilitiesLoading(false);
       }
     })();
 
     return () => {
-      mounted = false;
+      ac.abort();
     };
   }, [query]);
 
-  return filteredData;
+  const isLoading = evaluationLoading || facilitiesLoading;
+  const error = evaluationError ?? facilitiesError;
+
+  // ownershipType, facilitySize and verifiedGrade are filtered on the client side
+  const filteredData = useMemo(() => {
+    return data.filter((item) => {
+      if (
+        options.ownershipType.length > 0 &&
+        !options.ownershipType.includes(getValueForLabel(item.ownershipType))
+      )
+        return false;
+      if (
+        options.facilitySize.length > 0 &&
+        !options.facilitySize.includes(item.facilitySize)
+      )
+        return false;
+      if (
+        options.verifiedGrade.length > 0 &&
+        !options.verifiedGrade.includes(
+          getValueForLabel(item.verifiedGrade || ''),
+        )
+      )
+        return false;
+      return true;
+    });
+  }, [data, options]);
+
+  return { filteredData, isLoading, error };
 }
