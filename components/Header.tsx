@@ -18,10 +18,6 @@ export default function Header() {
               銀髮照護資源搜尋
             </span>
           </Link>
-          <nav className="space-x-4 text-sm text-primary">
-            <Link href="/search">搜尋</Link>
-            <Link href="/about">關於</Link>
-          </nav>
         </div>
       </Container>
     </header>
