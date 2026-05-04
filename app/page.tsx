@@ -21,7 +21,7 @@ export default function HomePage() {
         <Container className="h-full flex items-center">
           <div className="w-2xl">
             <h1 className="text-4xl sm:text-5xl text-primary font-extrabold mb-8">
-              為您所愛的人找到
+              協助您尋找
               <span className="text-secondary">最合適的照護</span>
             </h1>
             <p className="text-lg sm:text-xl text-neutral-700 mb-12">
