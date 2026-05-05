@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import './globals.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -18,7 +18,9 @@ export default function RootLayout({
     <html lang="en" className="font-noto-sans-tc bg-neutral-50">
       <body>
         <Header />
-        <main>{children}</main>
+        <main>
+          <Suspense>{children}</Suspense>
+        </main>
         <Footer />
       </body>
     </html>
