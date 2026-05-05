@@ -117,18 +117,13 @@ export default function FacilityCard({
         </div>
       </div>
 
-      <div className="flex align-items-center gap-4 pt-6">
-        <a href={`tel:${tel}`} className="flex-1/2 lg:flex-none">
+      <div className="flex flex-col sm:flex-row align-items-center gap-4 pt-6">
+        <a href={`tel:${tel}`}>
           <FullRoundedButton variant="tertiary" className="w-full">
             立即洽詢
           </FullRoundedButton>
         </a>
-        <a
-          href={googleMapsUrl}
-          className="flex-1/2 lg:flex-none"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">
           <FullRoundedButton variant="accent" className="w-full">
             在地圖上查看
           </FullRoundedButton>
